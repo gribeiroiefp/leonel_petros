@@ -1,0 +1,235 @@
+body {
+    background: #000000d0;
+    color: #fff; /* cor base do texto */
+}
+
+header {
+    background-color: #000000;
+}
+
+header div {
+    padding: 4px 0;
+    color: white;
+}
+
+header div a {
+    color: white;
+    text-decoration: none;
+    margin-left: 30px;
+}
+
+header div a:hover {
+    opacity: 0.7;
+}
+
+.pesquisa .pesquisa-form {
+    padding-top: 80px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid #adadad;
+}
+
+.pesquisa .pesquisa-form form {
+    margin-top: 30px;
+}
+
+.pesquisa .pesquisa-form form .sombra-form {
+    width: fit-content;
+    margin: auto;
+    box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.75);
+}
+
+.pesquisa .pesquisa-form input {
+    line-height: 32px;
+    padding: 8px 16px;
+    border: none;
+    width: 420px;
+    display: inline-block;
+    outline: none;
+}
+
+.pesquisa .pesquisa-form button {
+    background: #000000;
+    color: white;
+    height: 48px;
+    text-align: center;
+    display: inline-block;
+    border: none;
+    margin-left: -4px;
+    padding: 0 28px;
+}
+
+.lista {
+    padding-top: 50px;
+    color: #000;
+}
+
+.lista h3 {
+    padding-bottom: 30px;
+    color: white;
+}
+
+.lista a {
+    margin: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: black;
+    text-decoration: none;
+    background-color: #e6e6e6;
+}
+
+.lista a:hover {
+    opacity: 0.7;
+}
+
+.home {
+    padding-top: 30px;
+}
+
+.home h2 {
+    padding-bottom: 30px;
+    padding-top: 80px;
+    color: white;
+}
+
+.editar {
+    padding-bottom: 80px;
+}
+
+.editar h2 {
+    padding-bottom: 30px;
+    padding-top: 80px;
+    color: white;
+}
+
+.home .livro-recente-cont {
+    min-height: 450px;
+}
+
+.home .livro-recente {
+    height: 100%;
+    background: black;
+    background-position: center;
+    background-size: cover;
+}
+
+.home .livro-recente .row {
+    height: 100%;
+    padding: 10px;
+    background: rgba(1, 1, 1, 0.4);
+}
+
+.home .livro-recente .row:hover {
+    background: rgba(1, 1, 1, 0.6);
+}
+
+.home .livro-recente a {
+    color: white;
+    text-decoration: none;
+    height: 100%;
+}
+
+.autor h2 {
+    margin: 0;
+    padding-top: 80px;
+    padding-bottom: 30px;
+    color: white;
+}
+
+.autor .informacao,
+.livro .info {
+    color: white;
+    font-size: 18px;
+}
+
+.autor .informacao span,
+.filme .info span {
+    font-weight: bold;
+}
+
+.livro h2 {
+    padding-bottom: 30px;
+    color: white;
+}
+
+.livro .info {
+    padding-top: 80px;
+}
+
+.livro .opcoes a.btn-editar,
+.autor .opcoes a.btn-editar {
+    margin-bottom: 6px;
+}
+
+form.inserir {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #f8f9fa; /* leve cinza claro */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+
+form.inserir input[type="text"],
+form.inserir input[type="number"],
+form.inserir textarea,
+form.inserir input[type="file"] {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+form.inserir input[type="text"]:focus,
+form.inserir input[type="number"]:focus,
+form.inserir textarea:focus,
+form.inserir input[type="file"]:focus {
+    border-color: #0d6efd; /* azul bootstrap */
+    outline: none;
+}
+
+form.inserir textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+form.inserir label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #333;
+}
+
+div.inserir {
+    padding-top: 80px;
+}
+
+.foto {
+    max-width: 150px;
+    margin-right: 20px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    form {
+        margin: 1rem;
+        padding: 1rem;
+    }
+}
+
+footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #adadad;
+    color: black;
+}
+
+footer p {
+    margin: 0;
+}
