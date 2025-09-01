@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 01-Set-2025 às 17:00
+-- Tempo de geração: 01-Set-2025 às 17:21
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -24,6 +24,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `autores`
+--
+
+CREATE TABLE `autores` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `data_nascimento` date DEFAULT NULL,
+  `nacionalidade` varchar(50) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `autores`
+--
+
+INSERT INTO `autores` (`id`, `nome`, `data_nascimento`, `nacionalidade`, `foto`) VALUES
+(1, 'Fiódor Dostoiévski', '1821-11-11', 'Russa', NULL),
+(2, 'Franz Kafka', '1883-07-03', 'Alemã', NULL),
+(3, 'Sun Tzu', NULL, 'Chinesa', NULL),
+(4, 'Maquiavel', '1469-05-03', 'Italiana', NULL),
+(5, 'William Shakespeare', '1564-04-26', 'Britânica', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `autor_livro`
 --
 
@@ -34,8 +59,51 @@ CREATE TABLE `autor_livro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Extraindo dados da tabela `autor_livro`
+--
+
+INSERT INTO `autor_livro` (`autor_livro_id`, `autor_id`, `livro_id`) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3),
+(4, 4, 4),
+(5, 5, 5),
+(6, 5, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `livros`
+--
+
+CREATE TABLE `livros` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `anos` year(4) DEFAULT NULL,
+  `capa` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `livros`
+--
+
+INSERT INTO `livros` (`id`, `titulo`, `anos`, `capa`) VALUES
+(1, 'Noites Brancas', '0000', NULL),
+(2, 'A Metamorfose', '1915', NULL),
+(3, 'A Arte da Guerra', NULL, NULL),
+(4, 'O Príncipe', '0000', NULL),
+(5, 'Hamlet', '0000', NULL),
+(6, 'Romeu e Julieta', '0000', NULL);
+
+--
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices para tabela `autores`
+--
+ALTER TABLE `autores`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices para tabela `autor_livro`
@@ -46,14 +114,32 @@ ALTER TABLE `autor_livro`
   ADD KEY `livro_id` (`livro_id`);
 
 --
+-- Índices para tabela `livros`
+--
+ALTER TABLE `livros`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de tabelas despejadas
 --
+
+--
+-- AUTO_INCREMENT de tabela `autores`
+--
+ALTER TABLE `autores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `autor_livro`
 --
 ALTER TABLE `autor_livro`
-  MODIFY `autor_livro_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `autor_livro_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de tabela `livros`
+--
+ALTER TABLE `livros`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restrições para despejos de tabelas
