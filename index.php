@@ -1,7 +1,5 @@
-<html>
-    <head>
-    </head>
-    <body>
-        <h1>Website de livros</h1>
-    </body>
-</html>
+<?php
+$conn = mysqli_connect('127.0.0.1', 'root', '', 'website de livros');
+if (!$conn) {
+    die('Erro na ligação: ' . mysqli_connect_error());
+}
