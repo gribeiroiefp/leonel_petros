@@ -8,7 +8,7 @@ $msg = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
-    // Campo opcional; se vier vazio, fica NULL
+    
     $data_nascimento = $_POST['data_nascimento'] !== '' ? $_POST['data_nascimento'] : null;
     $nacionalidade = $_POST['nacionalidade'];
 
@@ -23,13 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fileName = basename($imagem['name']);
     $foto_caminho = $diretorio_fotos . $fileName;
 
-    // Validar se o ficheiro é uma imagem
+    
     $check = getimagesize($imagem['tmp_name']);
     if ($check == false) {
         $msg = "O ficheiro enviado não é uma imagem válida";
     } else {
         if (move_uploaded_file($imagem['tmp_name'], $foto_caminho)) {
-            // Estrutura igual à do prof: INSERT com prepared statement
+            
             $sql = 'INSERT INTO autores (nome, data_nascimento, nacionalidade, foto) VALUES (?, ?, ?, ?)';
             $query = mysqli_prepare($conn, $sql);
             if ($query) {
