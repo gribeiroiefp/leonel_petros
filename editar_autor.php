@@ -21,14 +21,18 @@ if (!empty($_GET['id'])) {
 // --- PROCESSAR FORMULÁRIO SE FOI SUBMETIDO ---
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($autor['id'])) {
     $id = (int)$autor['id'];
-    $nome = trim($_POST['nome']);
-    $data_nascimento = trim($_POST['data_nascimento']);
-    $nacionalidade = trim($_POST['nacionalidade']);
+
+    $nome = $_POST['nome'];
+    $data_nascimento = $_POST['data_nascimento'];
+    $nacionalidade = $_POST['nacionalidade'];
+
+    $nome = mysqli_real_escape_string($conexao, $nome);
+    $data_nascimento = mysqli_real_escape_string($conexao, $data_nascimento);
+    $nacionalidade = mysqli_real_escape_string($conexao, $nacionalidade);
 
     // Foto inicial
     $caminho_foto = $autor['foto'] ?? '';
 
-    // --- VERIFICAR SE UMA NOVA FOTO FOI ENVIADA ---
     if (!empty($_FILES['foto']['name'])) {
         $pasta_destino = __DIR__ . "/uploads/fotos/";
         $pasta_destino_bd = "uploads/fotos/";
@@ -52,24 +56,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($autor['id'])) {
         }
     }
 
-    // --- ATUALIZAR AUTOR ---
+    $caminho_foto = mysqli_real_escape_string($conexao, $caminho_foto);
+
     if (!$mensagem) {
-        $sql = "UPDATE autores SET nome = ?, data_nascimento = ?, nacionalidade = ?, foto = ? WHERE id = ?";
-        $stmt = mysqli_prepare($conexao, $sql);
-        if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "ssssi", $nome, $data_nascimento, $nacionalidade, $caminho_foto, $id);
-            if (mysqli_stmt_execute($stmt)) {
-                $mensagem = "Autor atualizado com sucesso!";
-                $resultado = mysqli_query($conexao, "SELECT * FROM autores WHERE id = $id");
-                if ($resultado && mysqli_num_rows($resultado) > 0) {
-                    $autor = mysqli_fetch_assoc($resultado);
-                }
-            } else {
-                $mensagem = "Erro ao atualizar autor: " . mysqli_stmt_error($stmt);
+        $sql = "UPDATE autores 
+                SET nome = '$nome', 
+                    data_nascimento = '$data_nascimento', 
+                    nacionalidade = '$nacionalidade', 
+                    foto = '$caminho_foto' 
+                WHERE id = $id";
+
+        if (mysqli_query($conexao, $sql)) {
+            $mensagem = "Autor atualizado com sucesso!";
+            $resultado = mysqli_query($conexao, "SELECT * FROM autores WHERE id = $id");
+            if ($resultado && mysqli_num_rows($resultado) > 0) {
+                $autor = mysqli_fetch_assoc($resultado);
             }
-            mysqli_stmt_close($stmt);
         } else {
-            $mensagem = "Erro na preparação do SQL: " . mysqli_error($conexao);
+            $mensagem = "Erro ao atualizar autor: " . mysqli_error($conexao);
         }
     }
 }
@@ -109,7 +113,6 @@ mysqli_close($conexao);
             <div class="alert alert-info"><?php echo htmlspecialchars($mensagem) ?></div>
         <?php endif; ?>
 
-        <!-- Formulário de edição -->
         <?php if ($autor): ?>
             <form action="editar_autor.php?id=<?php echo htmlspecialchars($autor['id']) ?>" method="POST" enctype="multipart/form-data" class="mb-5 inserir">
                 <input
@@ -122,7 +125,6 @@ mysqli_close($conexao);
                 <input
                     type="file" name="foto" id="foto" accept="image/*" class="form-control mb-3" />
 
-                <!-- Mostrar foto atual -->
                 <?php if (!empty($autor['foto'])): ?>
                     <img
                         src="<?php echo htmlspecialchars($autor['foto']) ?>"

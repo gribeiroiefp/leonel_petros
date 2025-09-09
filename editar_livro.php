@@ -21,13 +21,16 @@ if (!empty($_GET['id'])) {
 // --- PROCESSAR FORMULÁRIO SE FOI SUBMETIDO ---
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($livro['id'])) {
     $id = (int)$livro['id'];
+
     $titulo = $_POST['titulo'];
     $anos = $_POST['anos'];
+
+    $titulo = mysqli_real_escape_string($conexao, $titulo);
+    $anos = mysqli_real_escape_string($conexao, $anos);
 
     // Capa inicial
     $caminho_capa = $livro['capa'] ?? '';
 
-    // --- VERIFICAR SE UMA NOVA CAPA FOI ENVIADA ---
     if (!empty($_FILES['capa']['name'])) {
         $pasta_destino = __DIR__ . "/uploads/capas/";
         $pasta_destino_bd = "/leonel_petros/uploads/capas/";
@@ -52,24 +55,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($livro['id'])) {
         }
     }
 
-    // --- ATUALIZAR LIVRO ---
+    $caminho_capa = mysqli_real_escape_string($conexao, $caminho_capa);
+
     if (!$mensagem) {
-        $sql = "UPDATE livros SET titulo = ?, anos = ?, capa = ? WHERE id = ?";
-        $stmt = mysqli_prepare($conexao, $sql);
-        if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "sssi", $titulo, $anos, $caminho_capa, $id);
-            if (mysqli_stmt_execute($stmt)) {
-                $mensagem = "Livro atualizado com sucesso!";
-                $resultado = mysqli_query($conexao, "SELECT * FROM livros WHERE id = $id");
-                if ($resultado && mysqli_num_rows($resultado) > 0) {
-                    $livro = mysqli_fetch_assoc($resultado);
-                }
-            } else {
-                $mensagem = "Erro ao atualizar livro: " . mysqli_stmt_error($stmt);
+        $sql = "UPDATE livros 
+                SET titulo = '$titulo', 
+                    anos = '$anos', 
+                    capa = '$caminho_capa' 
+                WHERE id = $id";
+
+        if (mysqli_query($conexao, $sql)) {
+            $mensagem = "Livro atualizado com sucesso!";
+            $resultado = mysqli_query($conexao, "SELECT * FROM livros WHERE id = $id");
+            if ($resultado && mysqli_num_rows($resultado) > 0) {
+                $livro = mysqli_fetch_assoc($resultado);
             }
-            mysqli_stmt_close($stmt);
         } else {
-            $mensagem = "Erro na preparação do SQL: " . mysqli_error($conexao);
+            $mensagem = "Erro ao atualizar livro: " . mysqli_error($conexao);
         }
     }
 }

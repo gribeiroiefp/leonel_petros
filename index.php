@@ -54,7 +54,6 @@ $resultado_autores = mysqli_query($conn, $sql_autores);
                         $titulo = htmlspecialchars($livro['titulo']);
                         $ano = htmlspecialchars($livro['anos']);
 
-                        // Verifica se o campo "capa" está definido e não é string vazia
                         if (isset($livro['capa']) && $livro['capa'] !== '') {
                             $capa = "/leonel_petros/uploads/capas/" . $livro['capa'];
                         } else {
@@ -91,7 +90,7 @@ $resultado_autores = mysqli_query($conn, $sql_autores);
                     while ($autor = mysqli_fetch_assoc($resultado_autores)) {
                         $id = $autor['id'];
                         $nome = htmlspecialchars($autor['nome']);
-                        
+
                         $total = $autor['total_livros'];
 
                         // Verifica se a foto existe e está definida corretamente
@@ -131,7 +130,7 @@ $resultado_autores = mysqli_query($conn, $sql_autores);
 
     <footer class="container-fluid text-center mt-5 py-3">
         <div class="container-lg">
-            <p>&copy; 2025 Biblioteca Virtual.</p>
+            <p>&copy; 2025 Website de Livros.</p>
         </div>
     </footer>
 
