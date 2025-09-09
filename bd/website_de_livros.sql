@@ -88,12 +88,12 @@ CREATE TABLE `livros` (
 --
 
 INSERT INTO `livros` (`id`, `titulo`, `anos`, `capa`) VALUES
-(1, 'Noites Brancas', '0000', NULL),
+(1, 'Noites Brancas', '1848', NULL),
 (2, 'A Metamorfose', '1915', NULL),
 (3, 'A Arte da Guerra', NULL, NULL),
-(4, 'O Príncipe', '0000', NULL),
-(5, 'Hamlet', '0000', NULL),
-(6, 'Romeu e Julieta', '0000', NULL);
+(4, 'O Príncipe', '1532', NULL),
+(5, 'Hamlet', '1598', NULL),
+(6, 'Romeu e Julieta', '1597', NULL);
 
 --
 -- Índices para tabelas despejadas
