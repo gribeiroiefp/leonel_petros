@@ -53,7 +53,12 @@ $resultado_autores = mysqli_query($conn, $sql_autores);
                         $id = $livro['id'];
                         $titulo = htmlspecialchars($livro['titulo']);
                         $ano = htmlspecialchars($livro['anos']);
-                        $capa = $livro['capa'] ?? 'imagens/placeholder_livro.jpg';
+
+                        if (isset($livro['capa']) && $livro['capa'] !== '') {
+                            $capa = "/leonel_petros/uploads/capas/" . $livro['capa'];
+                        } else {
+                            $capa = "imagens/placeholder_livro.jpg";
+                        }
 
                         echo <<<HTML
                         <div class="col-md-4 mb-3">
@@ -63,6 +68,8 @@ $resultado_autores = mysqli_query($conn, $sql_autores);
                                     <div class="card-body bg-dark text-white">
                                         <h5 class="card-title">$titulo</h5>
                                         <p class="card-text">Ano: $ano</p>
+                                        <!-- Botão para editar livro -->
+                                        <a href="editar_livro.php?id=$id" class="btn btn-warning btn-sm mt-2">Editar Livro</a>
                                     </div>
                                 </div>
                             </a>
@@ -83,8 +90,15 @@ $resultado_autores = mysqli_query($conn, $sql_autores);
                     while ($autor = mysqli_fetch_assoc($resultado_autores)) {
                         $id = $autor['id'];
                         $nome = htmlspecialchars($autor['nome']);
-                        $foto = $autor['foto'] ?? 'imagens/placeholder_autor.jpg';
+
                         $total = $autor['total_livros'];
+
+                        // Verifica se a foto existe e está definida corretamente
+                        if (isset($autor['foto']) && $autor['foto'] !== '') {
+                            $foto = "/leonel_petros/uploads/fotos/" . $autor['foto'];
+                        } else {
+                            $foto = "imagens/placeholder_autor.jpg";
+                        }
 
                         echo <<<HTML
                         <div class="col-md-4 mb-3">
@@ -94,6 +108,8 @@ $resultado_autores = mysqli_query($conn, $sql_autores);
                                     <div class="card-body bg-dark text-white">
                                         <h5 class="card-title">$nome</h5>
                                         <p class="card-text">Livros publicados: $total</p>
+                                        <!-- Botão para editar autor -->
+                                        <a href="editar_autor.php?id=$id" class="btn btn-warning btn-sm mt-2">Editar Autor</a>
                                     </div>
                                 </div>
                             </a>
@@ -114,7 +130,7 @@ $resultado_autores = mysqli_query($conn, $sql_autores);
 
     <footer class="container-fluid text-center mt-5 py-3">
         <div class="container-lg">
-            <p>&copy; 2025 Biblioteca Virtual.</p>
+            <p>&copy; 2025 Website de Livros.</p>
         </div>
     </footer>
 
