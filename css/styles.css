@@ -233,3 +233,15 @@ footer {
 footer p {
     margin: 0;
 }
+
+/* mudar o texto do listar*/
+.lista a {
+    color: #0f0f0f; 
+    text-decoration: none;
+
+}
+
+.lista a:hover {
+    color: #333;          
+    text-decoration: underline;
+}

@@ -9,6 +9,14 @@ if (!$conexao) {
 $mensagem = "";
 $livro = null;
 
+// Apagar livro
+if (isset($_GET['apagar'])) {
+    $id = (int) $_GET['apagar'];
+    mysqli_query($conexao, "DELETE FROM livros WHERE id = $id");
+    header('Location: index.php');
+    exit;
+}
+
 // --- BUSCAR LIVRO SE O ID FOR FORNECIDO NA URL ---
 if (!empty($_GET['id'])) {
     $id = (int)$_GET['id'];
@@ -76,6 +84,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($livro['id'])) {
     }
 }
 
+// --- BUSCAR TODOS OS LIVROS PARA LISTAGEM ---
+$resultado_livros = mysqli_query($conexao, "SELECT * FROM livros ORDER BY titulo ASC");
+
 // Fechar ligação
 mysqli_close($conexao);
 ?>
@@ -96,13 +107,51 @@ mysqli_close($conexao);
             <h1 class="col-4">Website de Livros</h1>
             <nav class="col text-end">
                 <a href="index.php">Página inicial</a>
-                <a href="inserir_livro.php">Inserir Livro</a>
+                <a href="pesquisa.php">Pesquisa</a>
             </nav>
         </div>
     </div>
 </header>
 
 <div class="container-lg mt-5">
+    <h2>Lista de Livros</h2>
+
+    <?php if ($resultado_livros && mysqli_num_rows($resultado_livros) > 0): ?>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Ano</th>
+                    <th>Capa</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($linha = mysqli_fetch_assoc($resultado_livros)): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($linha['titulo']) ?></td>
+                        <td><?php echo htmlspecialchars($linha['anos']) ?></td>
+                        <td>
+                            <?php if (!empty($linha['capa'])): ?>
+                                <img src="<?php echo htmlspecialchars($linha['capa']) ?>" alt="Capa" style="height:50px;">
+                            <?php else: ?>
+                                (sem capa)
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <a href="editar_livro.php?id=<?php echo $linha['id'] ?>" class="btn btn-sm btn-primary">Editar</a>
+                            <a href="editar_livro.php?apagar=<?php echo $linha['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Tem a certeza que quer apagar este livro?');">Apagar</a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Nenhum livro encontrado.</p>
+    <?php endif; ?>
+
+    <hr>
+
     <h2>Editar Livro</h2>
 
     <?php if ($mensagem): ?>
@@ -110,13 +159,14 @@ mysqli_close($conexao);
     <?php endif; ?>
 
     <?php if ($livro): ?>
+
         <form action="editar_livro.php?id=<?php echo htmlspecialchars($livro['id']) ?>" method="POST" enctype="multipart/form-data" class="mb-5">
             <input
                 type="text" name="titulo" placeholder="Título" required class="form-control mb-3" value="<?php echo htmlspecialchars($livro['titulo']) ?>" />
             <input
                 type="text" name="anos" placeholder="Ano de publicação" required class="form-control mb-3" value="<?php echo htmlspecialchars($livro['anos']) ?>" />
             
-                <label for="capa" class="form-label">Capa do livro:</label>
+            <label for="capa" class="form-label">Capa do livro:</label>
             <input type="file" name="capa" id="capa" accept="image/*" class="form-control mb-3" />
 
             <?php if (!empty($livro['capa'])): ?>
@@ -131,8 +181,8 @@ mysqli_close($conexao);
 
     <div class="editar">
         <h2>Opções</h2>
-        <a href="inserir_autor.php" class="btn btn-secondary">Inserir Novo Autor</a>
-        <a href="index.php" class="btn btn-secondary">Voltar à Página Inicial</a>
+        <a href="inserir_autor.php" class="btn btn-primary">Inserir Novo Autor</a>
+        <a href="inserir_livro.php" class="btn btn-primary">Inserir Novo Livro</a>
     </div>
 </div>
 
